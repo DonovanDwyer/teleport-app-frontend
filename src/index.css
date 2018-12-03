@@ -12,3 +12,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.picContainerTest {
+  position: absolute;
+  z-index: 0;
+}
+#overlayImageTest {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}

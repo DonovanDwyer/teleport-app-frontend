@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import WebcamCont from './WebcamCont'
+import BackgroundCont from './BackgroundCont'
 
 class App extends Component {
+
+  fetchBodyOutlineImg = (image) => {
+    return fetch("http://localhost:3000/screenshots", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "accepts": "application/json"
+      },
+      body: JSON.stringify({image})
+    }).then(res => res.json())
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <WebcamCont fetchBodyOutlineImg={this.fetchBodyOutlineImg}/>
       </div>
     );
   }
