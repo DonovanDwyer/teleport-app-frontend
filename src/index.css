@@ -13,13 +13,57 @@ code {
     monospace;
 }
 
-.picContainerTest {
+.sidebar-container {
+  height: 200px;
+  width: 100%;
   position: absolute;
+  bottom: 0;
+  right: 0;
+  list-style: none;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space:nowrap;
+  padding-bottom: 28px;
+  background-color: white;
+}
+
+.sidebar-container ul {
+  list-style-type: none;
+}
+
+.sidebar-container li {
+  display: inline;
+}
+
+.sidebar-container img {
+  height: 200px;
+  max-width: 25%;
+  margin-right: 10px;
+}
+
+.background-image {
+  max-width: 100%;
   z-index: 0;
 }
-#overlayImageTest {
+
+.work-area-container {
+  height: 70%;
+  width: 100%;
+  padding-top: -200px;
+  padding-left: -500px;
+  padding-right: -200px;
+  padding-bottom: 200px;
+}
+
+.webcam-container {
   position: absolute;
-  top: 0;
-  left: 0;
   z-index: 1;
+  left: 0;
+  top: 0;
+}
+
+#outline {
+  margin-left: -100px;
+  margin-right: -100px;
+  margin-top: -500px;
 }
