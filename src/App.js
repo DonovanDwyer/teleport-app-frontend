@@ -15,7 +15,24 @@ class App extends Component {
     fontFamily: "Calibri",
     fill: "#555",
     text: "",
-    textToolbarIsOpen: false
+    textToolbarIsOpen: false,
+    editMode: false,
+    reset: false,
+    finalImages: [],
+    backgroundImages: []
+  }
+
+  componentDidMount = () => {
+    fetch("http://localhost:3000/final_images")
+    .then(res => res.json())
+    .then(json => this.setState({finalImages: json}));
+    this.getBackgroundImages();
+  }
+
+  getBackgroundImages = () => {
+    return fetch("http://localhost:3000/background_images")
+    .then(res => res.json())
+    .then(json => this.setState({backgroundImages: json}))
   }
 
   fetchBodyOutlineImg = (image) => {
@@ -38,7 +55,9 @@ class App extends Component {
     html2canvas(workArea, {allowTaint : true}).then((canvas) => {
     let base64image = canvas.toDataURL("image/png");
     this.setState({finalImage: base64image})
-    this.sendImageToDB(base64image)
+    this.sendImageToDB(base64image).then(json => this.setState({
+      finalImages: [json, ...this.state.finalImages]
+    }))
   })
   }
 
@@ -77,11 +96,49 @@ class App extends Component {
     this.setState({textToolbarIsOpen: bool})
   }
 
+  editMode = (bool) => {
+    if(this.state.editMode !== bool){
+    this.setState({
+      editMode: bool,
+      reset: false
+    })
+    }
+  }
+
+  resetToWebcam = () => {
+    this.setState({
+      editMode: false,
+      reset: true
+    })
+  }
+
+  deleteFinalImage = () => {
+    let finalImage = this.state.finalImage
+    fetch(`http://localhost:3000/final_images/${finalImage.id}`, {
+      method: 'DELETE'
+    })
+    this.closeFullScreen();
+  }
+
+  addBackgroundtoDB = (e) => {
+    fetch("http://localhost:3000/background_images", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json'
+      },
+      body: JSON.stringify({
+        image_url: e
+      })
+    }).then(res => res.json())
+  }
+
+
+
   render() {
     return (
       <div>
-      {this.state.finalImage === "" ? null : <FullScreenImage closeFullScreen={this.closeFullScreen} image={this.state.finalImage} />}
-      <button onClick={this.getScreenshot} id="butt">Clicker</button>
+      {this.state.finalImage === "" ? null : <FullScreenImage closeFullScreen={this.closeFullScreen} image={this.state.finalImage} deleteFinalImage={this.deleteFinalImage} />}
         < WorkAreaContainer
         selectedBackgroundImage={this.state.selectedBackgroundImage}
         fetchBodyOutlineImg={this.fetchBodyOutlineImg}
@@ -90,13 +147,19 @@ class App extends Component {
         fill={this.state.fill}
         text={this.state.text}
         textToolbarIsOpen={this.state.textToolbarIsOpen}
+        editMode={this.editMode}
+        resetValue={this.state.reset}
         />
         < SidebarContainer
+        backgroundImages={this.state.backgroundImages}
+        addBackgroundtoDB={this.addBackgroundtoDB}
         fetchBackgroundImage={this.fetchBackgroundImage}
         handleTextFormChanges={this.handleTextFormChanges}
         toggleToolbarValue={this.toggleToolbarValue}
+        editModeValue={this.state.editMode}
+        getScreenshot={this.getScreenshot}
         />
-        < SavedImageContainer showFinalImage={this.showFinalImage}/>
+        < SavedImageContainer showFinalImage={this.showFinalImage} finalImages={this.state.finalImages} className="final-image-drawer"/>
       </div>
     );
   }

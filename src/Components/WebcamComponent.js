@@ -8,6 +8,11 @@ export default class WebcamComponent extends Component {
     outline: ""
   }
 
+  resetToWebcam = () => {
+    this.setState({
+      imageSrc: ""
+    })
+  }
 
   setRef = webcam => {
     this.webcam = webcam;
@@ -40,26 +45,29 @@ export default class WebcamComponent extends Component {
     let webcamDiv = <div>
     < Webcam
       audio={false}
-      width={350}
+      width={799}
       ref={this.setRef}
-      height={350}
+      height={450}
       screenshotFormat="image/jpeg"
       videoConstraints={videoConstraints}
     />
-    <button onClick={this.capture}>Take Picture</button></div>
+    <br />
+    <button className="big-button" onClick={this.capture}>Take Picture</button></div>
 
     let screenshotDiv = <div>
     <img src={this.state.imageSrc} alt="" />
-    <p>Do you want to save this image?</p>
-    <button onClick={this.fetchOutline}>Save Picture</button>
-    <button onClick={this.clearImageSrcFromState}>Retake Picture</button>
+    <p style={{textAlign: 'center'}}>Do you want to save this image?</p>
+    <div className="button-div">
+    <button onClick={this.fetchOutline} className="med-button">Save Picture</button>
+    <button onClick={this.clearImageSrcFromState} className="med-button">Retake Picture</button>
+    </div>
     </div>
 
     let outlineDiv = <div>
       <img src={`data:image/jpeg;base64,${this.state.outline}`} alt="" id="outline" />
     </div>
 
-    if(this.state.imageSrc === ""){
+    if(this.props.resetValue === true || this.state.imageSrc === ""){
       finalDiv = webcamDiv;
     } else if (this.state.imageSrc !== "" && this.state.outline === "") {
       finalDiv = screenshotDiv;
@@ -74,16 +82,3 @@ export default class WebcamComponent extends Component {
     )
   }
 }
-
-
-
-// <Draggable
-// axis="both"
-// handle=".handle"
-// bounds="parent"
-// position={null}
-// onStart={this.handleStart}
-// onDrag={this.handleDrag}
-// onStop={this.handleStop}
-// >
-//

@@ -5,15 +5,8 @@ import TextToolbar from '../Components/TextToolbar'
 export default class SidebarContainer extends Component {
 
   state = {
-    backgroundImages: [],
     newBackgroundUrl: "",
     sidebarContent: "background"
-  }
-
-  componentDidMount = () => {
-    fetch("http://localhost:3000/background_images")
-    .then(res => res.json())
-    .then(json => this.setState({backgroundImages: json}))
   }
 
   handleDropDown = (e) => {
@@ -29,32 +22,29 @@ export default class SidebarContainer extends Component {
     })
   }
 
-  addBackgroundtoDB = () => {
-    let newBackgroundArray = [...this.state.backgroundImages]
-    fetch("http://localhost:3000/background_images", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accepts': 'application/json'
-      },
-      body: JSON.stringify({
-        image_url: this.state.newBackgroundUrl
-      })
-    }).then(res => res.json())
-    .then(json => this.setState({
-      backgroundImages: newBackgroundArray.push(json)
-    }))
-  }
+  // addBackgroundtoDB = () => {
+  //   let newBackgroundArray = [...this.state.backgroundImages]
+  //   fetch("http://localhost:3000/background_images", {
+  //     method: "POST",
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accepts': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       image_url: this.state.newBackgroundUrl
+  //     })
+  //   }).then(res => res.json())
+  // }
 
   render(){
     let editDiv;
 
     if (this.state.sidebarContent === "background") {
       editDiv = <ul>
-        {this.state.backgroundImages.map(bg => < BackgroundImage key={bg.id} fetchBackgroundImage={this.props.fetchBackgroundImage} imgObj={bg} />)}
+        {this.props.backgroundImages.map(bg => < BackgroundImage key={bg.id} fetchBackgroundImage={this.props.fetchBackgroundImage} imgObj={bg} />)}
         <br />
-        Add New Background: <input type="text" value={this.state.newBackgroundUrl} name="url" onChange={this.handleChange} />
-        <button onClick={this.addBackgroundtoDB}>Save</button>
+        <span style={{marginLeft: -15}}>Add New Background:</span> <input type="text" value={this.state.newBackgroundUrl} name="url" onChange={this.handleChange} />
+        <button onClick={() => this.props.addBackgroundtoDB(this.state.newBackgroundUrl)} className="small-button">Save</button>
       </ul>
     } else if (this.state.sidebarContent === "text") {
       editDiv = < TextToolbar handleTextFormChanges={this.props.handleTextFormChanges} />
@@ -62,10 +52,15 @@ export default class SidebarContainer extends Component {
 
     return (
     <div className="sidebar-container">
-      <select onChange={this.handleDropDown}>
+      <select onChange={this.handleDropDown} style={{marginLeft: 25, position: 'fixed', left: 0}}>
         <option value="background">Select Background Images</option>
         <option value="text">Add Text to Image</option>
       </select>
+      {this.props.editModeValue ? ( <div>
+        <button style={{'position': 'fixed', 'right': 200, marginTop: -20}} className="small-button" onClick={this.props.resetToWebcam}>Reset</button>
+        <button style={{'position': 'fixed', 'right': 20, marginTop: -20}} className="small-button" onClick={this.props.getScreenshot}>Save Final Image</button>
+      </div>) : (
+         null ) }
         {editDiv}
     </div>
   )

@@ -13,6 +13,10 @@ code {
     monospace;
 }
 
+body {
+  overflow:hidden;
+}
+
 .sidebar-container {
   height: 140px;
   width: 100%;
@@ -39,6 +43,7 @@ code {
   height: 100px;
   max-width: 25%;
   margin-right: 10px;
+  margin-top: 10px;
 }
 
 .background-image {
@@ -56,22 +61,21 @@ code {
 .work-area-container {
   position: absolute;
   height: 80%;
-  /* height: 50%; */
   width: 100%;
   padding-top: -200px;
   padding-left: -500px;
   padding-right: -200px;
-  /* padding-bottom: 200px; */
 }
 
 .webcam-container {
   position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
   display: block;
   z-index: 1;
   margin-left: auto;
   margin-right: auto;
-  /* left: 0; */
-  top: 0;
+  top: 10px;
 }
 
 .editImage {
@@ -80,39 +84,70 @@ code {
   top: 0;
 }
 
-#butt {
+.final-images-container {
+  width: 300px;
   position: absolute;
-  top:0;
-  right:0;
-  z-index:3;
+  right: -300px;
+  z-index: 5;
+  background-color: white;
+  padding-left: 0.5px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: .5s;
 }
 
-.final-images-container {
-  width: 150px;
-  position: absolute;
+.final-images-container:hover {
   right: 0;
 }
 
+
+
 .final-images-container img {
-  max-width: 100%
+  max-width: 100%;
+  margin: 10px;
 }
 
 .full-screen-image {
   position: absolute;
   z-index: 5;
   width: auto;
-  height: auto;
+  height: 100%;
+  background-color: black;
 }
 
 .full-screen-image img {
+  margin-top: 70px;
   max-width: 100%;
   max-height: 100%;
 }
 
-.full-screen-image a {
+.full-screen-image a#close-button {
   position: absolute;
   top: 0;
+  right: 0;
+  margin: 20px;
   z-index: 7;
+  text-decoration: none;
+  color: white;
+  font-weight: 400;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.full-screen-image a#delete-button {
+  position: absolute;
+  bottom: 0;
+  margin: 20px;
+  z-index: 7;
+  text-decoration: none;
+  color: white;
+  font-weight: 400;
+  font-size: 0.8em;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, 0);
+
 }
 
 
@@ -123,4 +158,74 @@ form div input {
 form div div {
   display: inline-block;
   margin-right: 15px;
+}
+
+button.big-button {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 50px;
+  font-weight: 400;
+  font-size: 1.5em;
+  background-color: SkyBlue;
+  color: white;
+  border: none;
+}
+
+button.big-button:hover {
+  background-color: DarkBlue;
+  color: brown;
+  opacity: 0.4;
+}
+
+button.med-button {
+  padding: 10px;
+  border-radius: 30px;
+  background-color: SkyBlue;
+  color: white;
+  border: none;
+  font-size: 1em;
+  margin-top: -10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+button.med-button:hover {
+  background-color: DarkBlue;
+  color: brown;
+  opacity: 0.4;
+}
+
+.button-div {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+button.small-button {
+  border-radius: 10px;
+  background-color: SkyBlue;
+  color: white;
+  border: none;
+  margin-left: 10px;
+  font-size: 0.9em;
+}
+
+button.small-button:hover {
+  background-color: DarkBlue;
+  color: brown;
+  opacity: 0.4;
+}
+
+form {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: 50px;
+}
+
+form input {
+  margin: 6px;
 }

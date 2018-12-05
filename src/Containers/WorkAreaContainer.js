@@ -28,9 +28,11 @@ export default class WorkAreaContainer extends Component {
 
     let toggleDiv;
 
-    if(this.state.outline === ""){
-      toggleDiv = <WebcamComponent fetchBodyOutlineImg={this.props.fetchBodyOutlineImg} getOutline={this.getOutline} />
+    if(this.props.resetValue === true || this.state.outline === ""){
+      this.props.editMode(false)
+      toggleDiv = <WebcamComponent fetchBodyOutlineImg={this.props.fetchBodyOutlineImg} getOutline={this.getOutline} resetValue={this.props.resetValue} />
     } else {
+      this.props.editMode(true)
       toggleDiv = <div onClick={this.handleClick}>
       <CanvasComponent
       outlineImage={this.state.outline}
