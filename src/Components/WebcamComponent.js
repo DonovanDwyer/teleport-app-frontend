@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import Webcam from 'react-webcam'
-import Draggable from 'react-draggable';
+
 
 export default class WebcamComponent extends Component {
   state = {
     imageSrc: "",
     outline: ""
   }
+
 
   setRef = webcam => {
     this.webcam = webcam;
@@ -18,7 +19,7 @@ export default class WebcamComponent extends Component {
   }
 
   fetchOutline = () => {
-    this.props.fetchBodyOutlineImg(this.state.imageSrc).then(json => this.setState({outline: json.body_image}))
+    this.props.fetchBodyOutlineImg(this.state.imageSrc).then(json => this.props.getOutline(json.body_image))
   }
 
   clearImageSrcFromState = () => {
@@ -67,20 +68,22 @@ export default class WebcamComponent extends Component {
     }
 
     return (
-      <Draggable
-      axis="both"
-      handle=".handle"
-      bounds="parent"
-      defaultPosition={{x: 0, y: 0}}
-      position={null}
-      onStart={this.handleStart}
-      onDrag={this.handleDrag}
-      onStop={this.handleStop}
-      >
-      <div className="handle webcam-container">
-        {finalDiv}
-      </div>
-      </Draggable>
+        <div className="handle webcam-container">
+          {finalDiv}
+        </div>
     )
   }
 }
+
+
+
+// <Draggable
+// axis="both"
+// handle=".handle"
+// bounds="parent"
+// position={null}
+// onStart={this.handleStart}
+// onDrag={this.handleDrag}
+// onStop={this.handleStop}
+// >
+//
